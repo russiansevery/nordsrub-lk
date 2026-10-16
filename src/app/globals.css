@@ -1,0 +1,50 @@
+/* Токены бренда взяты из стилей сайта nordsrub.ru (new-nordsrub/app/globals.css). */
+:root {
+  --ink: #31434e;
+  --forest-dark: #25343d;
+  --accent: #e8a774;
+  --accent-ink: #3a4550;
+  --accent-soft: #f4ccb3;
+  --wood: #a27351;
+  --surface: #f5f7f6;
+  --surface-2: #eef2f1;
+  --surface-warm: #f7f4f0;
+  --line: #e3e8e7;
+  --line-strong: #d8dad8;
+  --muted: #657077;
+  --muted-2: #4f5d66;
+  --white: #ffffff;
+  --ok: #5fc48a;
+  --r-sm: 14px;
+  --r-md: 20px;
+  --r-lg: 26px;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; background: var(--surface); color: var(--ink); }
+body { font-size: 15px; line-height: 1.4; }
+a { color: inherit; }
+button, input, select, textarea { font: inherit; color: inherit; }
+h1, h2, h3 { margin: 0; }
+
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  min-height: 46px; padding: 0 22px; border-radius: 999px; border: 0; cursor: pointer;
+  font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; text-decoration: none;
+}
+.btn-accent { background: var(--accent); color: var(--accent-ink); }
+.btn-outline { background: var(--white); color: var(--ink); border: 1px solid var(--ink); }
+.btn:disabled { opacity: 0.6; cursor: default; }
+
+.card { background: var(--white); border: 1px solid var(--line); border-radius: var(--r-lg); }
+.muted { color: var(--muted); }
+.small { font-size: 12px; }
+
+.field { display: flex; flex-direction: column; gap: 4px; font-size: 13px; color: var(--muted-2); }
+.field input {
+  min-height: 46px; border-radius: 12px; border: 1px solid var(--line-strong); padding: 0 14px;
+  font-size: 15px; color: var(--ink); background: var(--white);
+}
+.field input:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+.error { background: #f9e3dc; color: #7a2e1a; border-radius: 12px; padding: 10px 14px; font-size: 14px; }
+.notice { background: var(--surface-2); color: var(--muted-2); border-radius: 12px; padding: 10px 14px; font-size: 14px; }
