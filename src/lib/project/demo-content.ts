@@ -36,7 +36,7 @@ export const demoGallery: GalleryStage[] = [
   { stage: 'Фундамент', reports: 2, files: 18, photos: photos(6, 5) },
 ];
 
-export type DemoDoc = { section: 'contract' | 'estimate' | 'act' | 'project'; name: string; date: string; status: string; file: string; pending?: boolean };
+export type DemoDoc = { section: string; name: string; date: string; file: string; status?: string; pending?: boolean };
 
 export const DOC_SECTIONS = { contract: 'Договоры', estimate: 'Сметы и оплаты', act: 'Акты', project: 'Проект' } as const;
 
@@ -51,46 +51,12 @@ export const demoDocs: DemoDoc[] = [
   { section: 'project', name: 'Альбом КД', file: '/demo/docs/albom-kd.pdf', date: '9 июня', status: 'Согласован' },
 ];
 
-export const demoChecklist = {
-  title: 'Чек-лист: подготовка к кровле',
-  items: [
-    { text: 'Освободить подъезд для манипулятора', done: true },
-    { text: 'Обеспечить электричество на участке', done: true },
-    { text: 'Выбрать цвет металлочерепицы', done: true },
-    { text: 'Согласовать дату поставки материалов', done: false },
-  ],
-};
-
-export const demoMaterials: { title: string; points: string[] }[] = [
-  {
-    title: 'Эксплуатация дома из клеёного бруса',
-    points: [
-      'Первые два отопительных сезона дом даёт естественную усадку около 1–2 %. Это нормально, регулировочные узлы на это рассчитаны.',
-      'Держите влажность в доме 40–60 %, зимой помогает увлажнитель.',
-      'Первый год не включайте отопление на полную мощность сразу, поднимайте температуру постепенно.',
-    ],
-  },
-  {
-    title: 'Как принимать этап',
-    points: [
-      'Прораб приглашает на приёмку, когда этап готов. Дата приходит в чат проекта.',
-      'Сверьте работы со сметой и проектом, задайте вопросы прямо на объекте.',
-      'Замечания фиксируются в акте, после устранения акт подписывается в разделе «Документы».',
-    ],
-  },
-  {
-    title: 'Сезонный уход',
-    points: [
-      'Весной осмотрите фасад и обработайте участки, где покрытие потеряло цвет.',
-      'Осенью прочистите водостоки и проверьте отмостку.',
-      'Раз в 5–7 лет обновляйте защитное покрытие фасада.',
-    ],
-  },
-  {
-    title: 'Гарантия',
-    points: [
-      'Сроки гарантии на конструктив и инженерные системы указаны в договоре подряда.',
-      'Гарантийный случай оформляется через менеджера проекта или раздел «Написать руководству».',
-    ],
-  },
+export const MATERIAL_SECTIONS = { checklist: 'Чек-листы', memo: 'Памятки', company: 'О компании' } as const;
+export const demoMaterials: DemoDoc[] = [
+  { section: 'checklist', name: 'Чек-лист: подготовка к кровле', date: '1 стр.', file: '/demo/materials/chek-list-krovlya.pdf', status: 'Текущий этап', pending: true },
+  { section: 'checklist', name: 'Чек-лист приёмки этапа', date: '1 стр.', file: '/demo/materials/chek-list-priyomka.pdf' },
+  { section: 'memo', name: 'Эксплуатация дома из клеёного бруса', date: '1 стр.', file: '/demo/materials/pamyatka-ekspluataciya.pdf' },
+  { section: 'memo', name: 'Сезонный уход за домом', date: '1 стр.', file: '/demo/materials/pamyatka-sezonny-uhod.pdf' },
+  { section: 'memo', name: 'Гарантийные условия', date: '1 стр.', file: '/demo/materials/garantiya.pdf' },
+  { section: 'company', name: 'Дом из клеёного бруса: от проекта к реализации', date: '26 стр.', file: '/demo/materials/prezentaciya-kleeny-brus.pdf' },
 ];
