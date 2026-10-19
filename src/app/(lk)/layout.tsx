@@ -38,9 +38,9 @@ export default async function CabinetLayout({ children }: { children: React.Reac
         <nav className="lk-nav">
           <NavLinks variant="side" />
         </nav>
-        <div className="lk-manager">
+        <div className="lk-foot">
           {manager ? (
-            <>
+            <div className="lk-manager">
               <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
                 <span className="avatar">{initials(manager.name)}</span>
                 <div style={{ display: 'flex', flexDirection: 'column' }}>
@@ -50,15 +50,19 @@ export default async function CabinetLayout({ children }: { children: React.Reac
                 </div>
               </div>
               {manager.phone ? (
-                <a className="btn btn-accent" href={`tel:${manager.phone.replace(/[^\d+]/g, '')}`}>Позвонить</a>
+                <a className="btn btn-accent lk-call" href={`tel:${manager.phone.replace(/[^\d+]/g, '')}`}>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z" /></svg>
+                  Позвонить
+                </a>
               ) : null}
-            </>
+            </div>
           ) : null}
-          <Link className="lk-write" href="/write">Написать руководству</Link>
+          <Link className="lk-write" href="/write">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2" /><path d="m3 7 9 6 9-6" /></svg>
+            Написать руководству
+          </Link>
           <form action={logout}>
-            <button type="submit" style={{ background: 'none', border: 0, color: 'rgba(255,255,255,0.6)', fontSize: 12, cursor: 'pointer', padding: 0 }}>
-              Выйти ({client.email})
-            </button>
+            <button type="submit" className="lk-logout" title={client.email}>Выйти</button>
           </form>
         </div>
       </aside>
