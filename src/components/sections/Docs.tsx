@@ -17,14 +17,18 @@ export function Docs({ docs }: { docs: DemoDoc[] }) {
         ))}
       </div>
       <div className="card docs-table">
-        <div className="docs-row docs-head"><span /><span>Документ</span><span>Раздел</span><span>Дата</span><span>Статус</span></div>
+        <div className="docs-row docs-head"><span /><span>Документ</span><span>Раздел</span><span>Дата</span><span>Статус</span><span /></div>
         {shown.map((d) => (
           <div key={d.name} className="docs-row">
-            <span className="docs-ext">PDF</span>
-            <span className="docs-name">{d.name}</span>
+            <a className="docs-ext" href={d.file} target="_blank" rel="noopener" aria-label={`Открыть: ${d.name}`}>PDF</a>
+            <a className="docs-name" href={d.file} target="_blank" rel="noopener">{d.name}</a>
             <span className="muted docs-section">{DOC_SECTIONS[d.section]}</span>
             <span className="muted docs-date">{d.date}</span>
             <span className={`badge${d.pending ? ' pending' : ''}`}>{d.status}</span>
+            <span className="docs-actions">
+              <a className="docs-btn" href={d.file} target="_blank" rel="noopener">Открыть</a>
+              <a className="docs-btn" href={d.file} download>Скачать</a>
+            </span>
           </div>
         ))}
       </div>

@@ -36,19 +36,19 @@ export const demoGallery: GalleryStage[] = [
   { stage: 'Фундамент', reports: 2, files: 18, photos: photos(6, 5) },
 ];
 
-export type DemoDoc = { section: 'contract' | 'estimate' | 'act' | 'project'; name: string; date: string; status: string; pending?: boolean };
+export type DemoDoc = { section: 'contract' | 'estimate' | 'act' | 'project'; name: string; date: string; status: string; file: string; pending?: boolean };
 
 export const DOC_SECTIONS = { contract: 'Договоры', estimate: 'Сметы и оплаты', act: 'Акты', project: 'Проект' } as const;
 
 export const demoDocs: DemoDoc[] = [
-  { section: 'contract', name: 'Договор подряда № 0412', date: '20 июня', status: 'Подписан' },
-  { section: 'contract', name: 'Дополнительное соглашение № 1', date: '1 августа', status: 'Подписан' },
-  { section: 'estimate', name: 'Подписанная смета', date: '20 июня', status: 'Подписан' },
-  { section: 'estimate', name: 'График оплат', date: '20 июня', status: 'Подписан' },
-  { section: 'act', name: 'Акт: фундамент', date: '28 июля', status: 'Подписан' },
-  { section: 'act', name: 'Акт: каркас', date: '12 октября', status: 'На подписании', pending: true },
-  { section: 'project', name: 'Альбом АР', date: '9 июня', status: 'Согласован' },
-  { section: 'project', name: 'Альбом КД', date: '9 июня', status: 'Согласован' },
+  { section: 'contract', name: 'Договор подряда № 0412', file: '/demo/docs/dogovor-0412.pdf', date: '20 июня', status: 'Подписан' },
+  { section: 'contract', name: 'Дополнительное соглашение № 1', file: '/demo/docs/dopsoglashenie-1.pdf', date: '1 августа', status: 'Подписан' },
+  { section: 'estimate', name: 'Подписанная смета', file: '/demo/docs/smeta.pdf', date: '20 июня', status: 'Подписан' },
+  { section: 'estimate', name: 'График оплат', file: '/demo/docs/grafik-oplat.pdf', date: '20 июня', status: 'Подписан' },
+  { section: 'act', name: 'Акт: фундамент', file: '/demo/docs/akt-fundament.pdf', date: '28 июля', status: 'Подписан' },
+  { section: 'act', name: 'Акт: каркас', file: '/demo/docs/akt-karkas.pdf', date: '12 октября', status: 'На подписании', pending: true },
+  { section: 'project', name: 'Альбом АР', file: '/demo/docs/albom-ar.pdf', date: '9 июня', status: 'Согласован' },
+  { section: 'project', name: 'Альбом КД', file: '/demo/docs/albom-kd.pdf', date: '9 июня', status: 'Согласован' },
 ];
 
 export const demoChecklist = {
