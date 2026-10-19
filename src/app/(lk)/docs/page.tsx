@@ -1,12 +1,10 @@
-import { requireClient } from '@/lib/auth/session';
+import { currentView } from '@/lib/current-view';
+import { demoDocs } from '@/lib/project/demo-content';
+import { Docs } from '@/components/sections/Docs';
+import { NotConnected } from '@/components/sections/NotConnected';
 
 export default async function Page() {
-  await requireClient();
-  return (
-    <div className="card placeholder">
-      <h2 style={{ fontSize: 18 }}>Документы</h2>
-      <p className="muted" style={{ margin: 0 }}>Договор, смета, акты и другие документы по объекту.</p>
-      <p className="muted small" style={{ margin: 0 }}>Раздел появится в следующих версиях кабинета.</p>
-    </div>
-  );
+  const { view } = await currentView();
+  if (!view?.demo) return <NotConnected title="Документы" text="Договор, смета, график оплат и акты по вашему объекту." />;
+  return <Docs docs={demoDocs} />;
 }

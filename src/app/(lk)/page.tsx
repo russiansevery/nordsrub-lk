@@ -2,6 +2,7 @@ import { requireClient } from '@/lib/auth/session';
 import { currentDealId } from '@/lib/current-object';
 import { getProjectView } from '@/lib/project';
 import { Gantt } from '@/components/Gantt';
+import { CameraView } from '@/components/sections/CameraView';
 
 const fmt = new Intl.DateTimeFormat('ru-RU', { day: 'numeric', month: 'long' });
 
@@ -38,13 +39,7 @@ export default async function HomePage() {
 
   return (
     <div className="home">
-      <section className="camera" aria-label="Камера объекта">
-        <div className="camera-screen">Здесь будет прямой эфир с камеры объекта, когда её подключат.</div>
-        <div className="camera-bar">
-          <span>Камера объекта</span>
-          <span className="small" style={{ opacity: 0.7 }}>не подключена</span>
-        </div>
-      </section>
+      <CameraView name="Камера объекта" still={view.demo ? '/demo/render.webp' : null} live={false} />
 
       <section className="card project">
         <div className="project-head">

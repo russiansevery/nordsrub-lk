@@ -8,6 +8,7 @@ export const env = {
   inviteSecret: process.env.INVITE_SECRET ?? '',
   smtpUrl: process.env.SMTP_URL ?? '',
   mailFrom: process.env.MAIL_FROM ?? 'Русский Север <info@nordsrub.ru>',
+  managementEmail: (process.env.MANAGEMENT_EMAIL ?? 'info@nordsrub.ru').trim(),
   demoEmail: (process.env.DEMO_EMAIL ?? 'demo@nordsrub.ru').trim().toLowerCase(),
   demoPassword: process.env.DEMO_PASSWORD ?? 'demo2026',
   isProduction: process.env.NODE_ENV === 'production',

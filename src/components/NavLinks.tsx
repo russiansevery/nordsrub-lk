@@ -12,21 +12,32 @@ export const SECTIONS = [
   { href: '/materials', label: 'Полезные материалы', short: 'Материалы' },
 ] as const;
 
+const TITLES: Record<string, string> = { '/write': 'Написать руководству', '/more': 'Ещё' };
+// На телефоне камера, материалы и письмо руководству живут во вкладке «Ещё».
+const MORE = ['/more', '/camera', '/materials', '/write'];
+
 export function NavLinks({ variant }: { variant: 'side' | 'bottom' }) {
   const path = usePathname();
-  const items = variant === 'bottom' ? SECTIONS.filter((s) => s.href !== '/materials') : SECTIONS;
+  if (variant === 'side') {
+    return (
+      <>
+        {SECTIONS.map((s) => (
+          <Link key={s.href} href={s.href} aria-current={path === s.href ? 'page' : undefined}>{s.label}</Link>
+        ))}
+      </>
+    );
+  }
   return (
     <>
-      {items.map((s) => (
-        <Link key={s.href} href={s.href} aria-current={path === s.href ? 'page' : undefined}>
-          {variant === 'bottom' ? s.short : s.label}
-        </Link>
+      {SECTIONS.slice(0, 4).map((s) => (
+        <Link key={s.href} href={s.href} aria-current={path === s.href ? 'page' : undefined}>{s.short}</Link>
       ))}
+      <Link href="/more" aria-current={MORE.includes(path) ? 'page' : undefined}>Ещё</Link>
     </>
   );
 }
 
 export function PageTitle() {
   const path = usePathname();
-  return <h1>{SECTIONS.find((s) => s.href === path)?.label ?? 'Личный кабинет'}</h1>;
+  return <h1>{SECTIONS.find((s) => s.href === path)?.label ?? TITLES[path] ?? 'Личный кабинет'}</h1>;
 }

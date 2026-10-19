@@ -1,12 +1,23 @@
-import { requireClient } from '@/lib/auth/session';
+import { currentView } from '@/lib/current-view';
+import { demoChecklist, demoMaterials } from '@/lib/project/demo-content';
+import { Checklist } from '@/components/sections/Checklist';
+import { NotConnected } from '@/components/sections/NotConnected';
 
 export default async function Page() {
-  await requireClient();
+  const { view } = await currentView();
+  if (!view?.demo) return <NotConnected title="Полезные материалы" text="Чек-листы к текущему этапу и памятки по дому." />;
   return (
-    <div className="card placeholder">
-      <h2 style={{ fontSize: 18 }}>Полезные материалы</h2>
-      <p className="muted" style={{ margin: 0 }}>Чек-листы и памятки по уходу за домом.</p>
-      <p className="muted small" style={{ margin: 0 }}>Раздел появится в следующих версиях кабинета.</p>
+    <div className="materials">
+      <Checklist title={demoChecklist.title} items={demoChecklist.items} />
+      <section className="card materials-card">
+        <h2>Памятки по дому</h2>
+        {demoMaterials.map((m) => (
+          <details key={m.title} className="memo">
+            <summary>{m.title}</summary>
+            <ul>{m.points.map((p) => <li key={p}>{p}</li>)}</ul>
+          </details>
+        ))}
+      </section>
     </div>
   );
 }

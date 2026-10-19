@@ -1,12 +1,14 @@
-import { requireClient } from '@/lib/auth/session';
+import { currentView } from '@/lib/current-view';
+import { CameraView } from '@/components/sections/CameraView';
 
 export default async function Page() {
-  await requireClient();
+  const { view } = await currentView();
   return (
-    <div className="card placeholder">
-      <h2 style={{ fontSize: 18 }}>Камера</h2>
-      <p className="muted" style={{ margin: 0 }}>Прямой эфир с камеры на объекте.</p>
-      <p className="muted small" style={{ margin: 0 }}>Раздел появится в следующих версиях кабинета.</p>
+    <div className="section-stack camera-page">
+      <CameraView name="Камера объекта · вид на дом" still={view?.demo ? '/demo/render.webp' : null} live={false} />
+      <span className="muted small">
+        {view?.demo ? 'В демо показан кадр объекта. В рабочем кабинете здесь идёт трансляция в реальном времени.' : 'Трансляция с объекта в реальном времени.'}
+      </span>
     </div>
   );
 }
