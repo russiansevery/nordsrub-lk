@@ -34,11 +34,6 @@ export default async function HomePage() {
     view.area ? `${view.area.toLocaleString('ru-RU')} м²` : '',
     view.floors ? `${view.floors} ${plural(view.floors, 'этаж', 'этажа', 'этажей')}` : '',
   ].filter(Boolean).join(', ');
-  const work = [
-    timeline.daysInWork !== null ? `В работе ${timeline.daysInWork} ${plural(timeline.daysInWork, 'день', 'дня', 'дней')}` : '',
-    timeline.finished ? 'все этапы завершены' : `сейчас этап ${timeline.currentIndex + 1} из ${timeline.stages.length}`,
-  ].filter(Boolean).join(', ');
-
   return (
     <div className="home">
       <section className="card project">
@@ -46,8 +41,8 @@ export default async function HomePage() {
           <h2>Проект «{view.projectName}»</h2>
           {view.contractNumber ? <span className="project-contract">Договор № {view.contractNumber}</span> : null}
           <p className="project-about">
-            {house ? `${house}. ` : ''}{work.charAt(0).toUpperCase() + work.slice(1)}.
-            {view.address ? <><br />{view.address}</> : null}
+            {house ? `${house}.` : null}
+            {house && view.address ? <br /> : null}{view.address}
           </p>
         </div>
         {view.coverUrl ? (
