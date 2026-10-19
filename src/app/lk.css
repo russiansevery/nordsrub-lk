@@ -43,18 +43,18 @@
 .lk-bottom { display: none; }
 .demo-banner { background: #fff4e8; color: #6b4a33; font-size: 13px; padding: 8px 32px; border-bottom: 1px solid #f1dfd2; }
 
-.home { display: grid; grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr); gap: 24px; align-items: start; }
+.home { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr); gap: 24px; align-items: start; }
 .home-wide { grid-column: 1 / -1; }
 .camera { border-radius: var(--r-lg); overflow: hidden; background: var(--ink); color: var(--white); }
 .camera-screen { height: 340px; background: var(--forest-dark); display: flex; align-items: center; justify-content: center; text-align: center; padding: 24px; color: rgba(255,255,255,0.75); font-size: 14px; }
 .camera-bar { padding: 14px 20px; display: flex; justify-content: space-between; align-items: center; font-weight: 600; }
 .project { overflow: hidden; }
 .project-head { padding: 20px 20px 14px; display: flex; flex-direction: column; gap: 4px; }
-.project-head h2 { font-size: 20px; line-height: 1.25; }
+.project-head h2 { font-size: 24px; line-height: 1.2; }
+.project-contract { font-size: 15px; font-weight: 600; color: var(--muted-2); }
+.project-about { margin: 6px 0 0; font-size: 14px; line-height: 1.5; color: var(--muted); }
 .project-cover { display: block; width: calc(100% - 40px); margin: 0 20px 20px; height: 260px; border-radius: 20px; object-fit: cover; }
 .project-cover-empty { display: flex; align-items: center; justify-content: center; background: var(--surface-2); color: var(--muted); font-size: 14px; }
-.facts { display: flex; flex-wrap: wrap; gap: 8px; padding: 0 20px 20px; }
-.fact { background: var(--surface-2); border-radius: 999px; padding: 6px 12px; font-size: 13px; font-weight: 600; }
 
 .progress { padding: 24px; display: flex; flex-direction: column; gap: 16px; }
 .progress-head { display: flex; justify-content: space-between; align-items: baseline; }
@@ -92,6 +92,7 @@
   .lk-content { padding: 16px 16px 96px; }
   .demo-banner { padding: 8px 16px; }
   .home { grid-template-columns: minmax(0, 1fr); gap: 16px; }
+  .home > .camera { order: -1; }
   .camera-screen { height: 200px; }
   .project-cover { height: 200px; width: calc(100% - 32px); margin: 0 16px 16px; }
   .progress { padding: 16px; }

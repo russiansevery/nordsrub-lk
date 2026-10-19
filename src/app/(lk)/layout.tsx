@@ -5,7 +5,7 @@ import { currentDealId } from '@/lib/current-object';
 import { isDemoMode } from '@/lib/env';
 import { getProjectView } from '@/lib/project';
 import { loadDealTitles } from '@/lib/bitrix/deal';
-import { NavLinks, PageTitle } from '@/components/NavLinks';
+import { NavLinks, PageTitle, ProjectTag } from '@/components/NavLinks';
 import { logout } from '../login/actions';
 import '../lk.css';
 
@@ -71,7 +71,7 @@ export default async function CabinetLayout({ children }: { children: React.Reac
         <header className="lk-top">
           <Image className="lk-top-logo" src="/brand/logo.webp" alt="Русский Север" width={80} height={32} style={{ height: 'auto' }} />
           <PageTitle />
-          {view ? <span className="muted small">Проект «{view.projectName}»{view.contractNumber ? ` · договор № ${view.contractNumber}` : ''}</span> : null}
+          {view ? <ProjectTag text={`Проект «${view.projectName}»${view.contractNumber ? ` · договор № ${view.contractNumber}` : ''}`} /> : null}
         </header>
         {demo ? <div className="demo-banner">Демо-режим: показан тестовый объект, данные ненастоящие.</div> : null}
         <main className="lk-content">{children}</main>

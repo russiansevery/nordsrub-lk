@@ -8,13 +8,12 @@ export const SECTIONS = [
   { href: '/chat', label: 'Чат проекта', short: 'Чат' },
   { href: '/photos', label: 'Фото и видео', short: 'Фото' },
   { href: '/docs', label: 'Документы', short: 'Документы' },
-  { href: '/camera', label: 'Камера', short: 'Камера' },
   { href: '/materials', label: 'Полезные материалы', short: 'Материалы' },
 ] as const;
 
 const TITLES: Record<string, string> = { '/write': 'Написать руководству', '/more': 'Ещё' };
-// На телефоне камера, материалы и письмо руководству живут во вкладке «Ещё».
-const MORE = ['/more', '/camera', '/materials', '/write'];
+// На телефоне материалы и письмо руководству живут во вкладке «Ещё».
+const MORE = ['/more', '/materials', '/write'];
 
 export function NavLinks({ variant }: { variant: 'side' | 'bottom' }) {
   const path = usePathname();
@@ -40,4 +39,9 @@ export function NavLinks({ variant }: { variant: 'side' | 'bottom' }) {
 export function PageTitle() {
   const path = usePathname();
   return <h1>{SECTIONS.find((s) => s.href === path)?.label ?? TITLES[path] ?? 'Личный кабинет'}</h1>;
+}
+
+/** Подпись проекта в шапке. На главной не нужна: там тот же проект показан крупно. */
+export function ProjectTag({ text }: { text: string }) {
+  return usePathname() === '/' ? null : <span className="muted small">{text}</span>;
 }

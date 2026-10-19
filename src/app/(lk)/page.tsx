@@ -29,23 +29,26 @@ export default async function HomePage() {
   const today = new Date();
   const { timeline } = view;
   const current = timeline.stages[timeline.currentIndex];
-  const facts = [
+  const house = [
     view.material,
     view.area ? `${view.area.toLocaleString('ru-RU')} м²` : '',
     view.floors ? `${view.floors} ${plural(view.floors, 'этаж', 'этажа', 'этажей')}` : '',
-    timeline.daysInWork !== null ? `${timeline.daysInWork} ${plural(timeline.daysInWork, 'день', 'дня', 'дней')} в работе` : '',
-    `этап ${timeline.currentIndex + 1} из ${timeline.stages.length}`,
-  ].filter(Boolean);
+  ].filter(Boolean).join(', ');
+  const work = [
+    timeline.daysInWork !== null ? `В работе ${timeline.daysInWork} ${plural(timeline.daysInWork, 'день', 'дня', 'дней')}` : '',
+    timeline.finished ? 'все этапы завершены' : `сейчас этап ${timeline.currentIndex + 1} из ${timeline.stages.length}`,
+  ].filter(Boolean).join(', ');
 
   return (
     <div className="home">
-      <CameraView name="Камера объекта" still={view.demo ? '/demo/render.webp' : null} live={false} />
-
       <section className="card project">
         <div className="project-head">
-          <span className="muted small">Проект «{view.projectName}»{view.contractNumber ? ` · договор № ${view.contractNumber}` : ''}</span>
-          <h2>{[view.material, view.area ? `${view.area.toLocaleString('ru-RU')} м²` : ''].filter(Boolean).join(' · ') || view.projectName}</h2>
-          {view.address ? <span className="muted" style={{ fontSize: 13 }}>{view.address}</span> : null}
+          <h2>Проект «{view.projectName}»</h2>
+          {view.contractNumber ? <span className="project-contract">Договор № {view.contractNumber}</span> : null}
+          <p className="project-about">
+            {house ? `${house}. ` : ''}{work.charAt(0).toUpperCase() + work.slice(1)}.
+            {view.address ? <><br />{view.address}</> : null}
+          </p>
         </div>
         {view.coverUrl ? (
           // eslint-disable-next-line @next/next/no-img-element
@@ -53,10 +56,9 @@ export default async function HomePage() {
         ) : (
           <div className="project-cover project-cover-empty">Изображение дома появится после загрузки альбома</div>
         )}
-        <div className="facts">
-          {facts.map((f) => <span className="fact" key={f}>{f}</span>)}
-        </div>
       </section>
+
+      <CameraView name="Камера объекта" still={view.demo ? '/demo/render.webp' : null} live={false} />
 
       <section className="card progress home-wide">
         <div className="progress-head">
