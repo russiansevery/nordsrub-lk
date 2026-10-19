@@ -4,7 +4,9 @@ import { redirect } from 'next/navigation';
 import { headers } from 'next/headers';
 import { z } from 'zod';
 import { query } from '@/lib/db';
-import { createSession, destroySession, requireClient } from '@/lib/auth/session';
+import { createSession, destroySession, requireClient, SHOWCASE_CLIENT_ID } from '@/lib/auth/session';
+import { env, isShowcaseMode } from '@/lib/env';
+import { timingSafeEqual } from 'node:crypto';
 import { hashPassword, MIN_PASSWORD_LENGTH, verifyPassword } from '@/lib/auth/password';
 import { clearFailures, isLocked, recordFailure } from '@/lib/auth/rate-limit';
 
@@ -23,6 +25,16 @@ export async function login(_prev: FormState, form: FormData): Promise<FormState
   const ip = (await headers()).get('x-forwarded-for')?.split(',')[0]?.trim() ?? 'unknown';
   const key = `${email}|${ip}`;
   if (isLocked(key)) return { error: 'Слишком много попыток. Попробуйте через 15 минут.' };
+
+  if (isShowcaseMode()) {
+    if (email !== env.demoEmail || !sameText(password, env.demoPassword)) {
+      recordFailure(key);
+      return { error: 'Неверный email или пароль.' };
+    }
+    clearFailures(key);
+    await createSession(SHOWCASE_CLIENT_ID);
+    redirect('/');
+  }
 
   const [client] = await query<{ id: number; password_hash: string; blocked: boolean }>(
     'SELECT id, password_hash, blocked FROM clients WHERE email = $1',
@@ -48,6 +60,7 @@ const passwordSchema = z
 
 export async function changePassword(_prev: FormState, form: FormData): Promise<FormState> {
   const client = await requireClient({ allowTempPassword: true });
+  if (isShowcaseMode()) redirect('/');
   const parsed = passwordSchema.safeParse({ password: form.get('password'), repeat: form.get('repeat') });
   if (!parsed.success) {
     const repeatIssue = parsed.error.issues.some((i) => i.path[0] === 'repeat');
@@ -63,4 +76,10 @@ export async function changePassword(_prev: FormState, form: FormData): Promise<
 export async function logout() {
   await destroySession();
   redirect('/login');
+}
+
+function sameText(a: string, b: string) {
+  const x = Buffer.from(a);
+  const y = Buffer.from(b);
+  return x.length === y.length && timingSafeEqual(x, y);
 }
