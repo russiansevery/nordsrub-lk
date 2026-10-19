@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { currentView } from '@/lib/current-view';
+import { logout } from '../../login/actions';
 
 const initials = (name: string) => name.split(/\s+/).map((p) => p[0] ?? '').join('').slice(0, 2).toUpperCase();
 
@@ -8,10 +9,6 @@ export default async function Page() {
   const manager = view?.manager ?? null;
   return (
     <div className="section-stack">
-      <nav className="card more-links">
-        <Link href="/camera">Камера объекта<span aria-hidden="true">›</span></Link>
-        <Link href="/materials">Полезные материалы<span aria-hidden="true">›</span></Link>
-      </nav>
       {manager ? (
         <section className="card more-manager">
           <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
@@ -26,6 +23,12 @@ export default async function Page() {
         </section>
       ) : null}
       <Link href="/write" className="btn btn-outline">Написать руководству</Link>
+      <nav className="card more-links">
+        <Link href="/materials">Полезные материалы<span aria-hidden="true">›</span></Link>
+      </nav>
+      <form action={logout}>
+        <button type="submit" className="more-logout">Выйти</button>
+      </form>
     </div>
   );
 }

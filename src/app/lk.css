@@ -227,6 +227,7 @@ a.docs-ext { color: inherit; text-decoration: none; }
 .more-links { display: flex; flex-direction: column; overflow: hidden; }
 .more-links a { min-height: 56px; display: flex; align-items: center; justify-content: space-between; padding: 0 18px; text-decoration: none; font-size: 15px; font-weight: 500; border-top: 1px solid var(--surface-2); }
 .more-links a:first-child { border-top: 0; }
+.more-logout { background: none; border: 0; padding: 4px 2px; color: var(--muted); font: inherit; font-size: 14px; cursor: pointer; }
 .more-manager { padding: 16px; display: flex; flex-direction: column; gap: 12px; }
 
 @media (max-width: 900px) {
