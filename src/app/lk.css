@@ -45,6 +45,12 @@
 
 .home { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr); gap: 24px; align-items: start; }
 .home-wide { grid-column: 1 / -1; }
+@media (min-width: 901px) {
+  /* Карточка проекта и камера — одной высоты: растягиваются по более высокой. */
+  .home > .project, .home > .camera { align-self: stretch; display: flex; flex-direction: column; }
+  .home > .camera .camera-screen { flex: 1 1 auto; height: 0; min-height: 340px; overflow: hidden; }
+  .home > .project .project-cover { flex: 1 1 auto; height: 0; min-height: 260px; }
+}
 .camera { border-radius: var(--r-lg); overflow: hidden; background: var(--ink); color: var(--white); }
 .camera-screen { height: 340px; background: var(--forest-dark); display: flex; align-items: center; justify-content: center; text-align: center; padding: 24px; color: rgba(255,255,255,0.75); font-size: 14px; }
 .camera-bar { padding: 14px 20px; display: flex; justify-content: space-between; align-items: center; font-weight: 600; }
