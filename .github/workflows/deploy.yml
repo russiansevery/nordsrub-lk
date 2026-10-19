@@ -1,0 +1,58 @@
+name: Deploy
+
+# Выкладка на сервер после слияния в main или вручную (Actions → Deploy → Run workflow).
+# Нужны секреты: SERVER_HOST, SERVER_USER (root или пользователь с sudo без пароля), SERVER_SSH_KEY.
+# Необязательные: SERVER_SSH_PORT, LETSENCRYPT_EMAIL (включает HTTPS).
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency: deploy
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Проверить секреты
+        id: secrets
+        env:
+          HOST: ${{ secrets.SERVER_HOST }}
+        run: |
+          if [ -z "$HOST" ]; then echo "Секреты сервера не заданы, деплой пропущен."; echo "ok=false" >> "$GITHUB_OUTPUT"; else echo "ok=true" >> "$GITHUB_OUTPUT"; fi
+      - uses: actions/checkout@v4
+        if: steps.secrets.outputs.ok == 'true'
+      - uses: actions/setup-node@v4
+        if: steps.secrets.outputs.ok == 'true'
+        with:
+          node-version: 20
+          cache: npm
+      - name: Собрать
+        if: steps.secrets.outputs.ok == 'true'
+        run: |
+          npm ci
+          npm run build
+          mkdir -p release
+          cp -r .next/standalone/. release/
+          mkdir -p release/.next && cp -r .next/static release/.next/static
+          cp -r public release/public
+          cp -r db scripts release/
+          cp deploy/setup.sh release/setup.sh
+          tar -czf release.tgz -C release .
+      - name: Выложить
+        if: steps.secrets.outputs.ok == 'true'
+        env:
+          HOST: ${{ secrets.SERVER_HOST }}
+          USER_NAME: ${{ secrets.SERVER_USER }}
+          KEY: ${{ secrets.SERVER_SSH_KEY }}
+          PORT: ${{ secrets.SERVER_SSH_PORT }}
+          LE_EMAIL: ${{ secrets.LETSENCRYPT_EMAIL }}
+        run: |
+          PORT="${PORT:-22}"
+          install -m 600 /dev/null ~/key && printf '%s\n' "$KEY" > ~/key
+          mkdir -p ~/.ssh && ssh-keyscan -p "$PORT" "$HOST" >> ~/.ssh/known_hosts 2>/dev/null
+          SSH="ssh -i $HOME/key -p $PORT $USER_NAME@$HOST"
+          SUDO=$([ "$USER_NAME" = root ] && echo "" || echo "sudo -n")
+          REL="/opt/nordsrub-lk/releases/$(date +%Y%m%d%H%M%S)-${GITHUB_SHA::7}"
+          scp -i ~/key -P "$PORT" release.tgz "$USER_NAME@$HOST:/tmp/nordsrub-lk.tgz"
+          $SSH "$SUDO mkdir -p $REL && $SUDO tar -xzf /tmp/nordsrub-lk.tgz -C $REL && rm /tmp/nordsrub-lk.tgz && $SUDO bash $REL/setup.sh $REL '$LE_EMAIL'"

@@ -1,6 +1,6 @@
 import 'server-only';
 import { createHash, randomBytes } from 'node:crypto';
-import { cookies } from 'next/headers';
+import { cookies, headers } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { query } from '../db';
 import { env, isShowcaseMode } from '../env';
@@ -31,11 +31,17 @@ export async function createSession(clientId: number) {
   else await query('INSERT INTO sessions(token_hash, client_id, expires_at) VALUES ($1, $2, $3)', [sha256(token), clientId, expires]);
   (await cookies()).set(COOKIE, token, {
     httpOnly: true,
-    secure: env.isProduction,
+    secure: await isHttps(),
     sameSite: 'lax',
     path: '/',
     expires,
   });
+}
+
+// За nginx протокол берём из X-Forwarded-Proto: пока нет сертификата, сайт работает по http и cookie должна сохраниться.
+async function isHttps() {
+  const proto = (await headers()).get('x-forwarded-proto');
+  return proto ? proto.split(',')[0].trim() === 'https' : env.isProduction;
 }
 
 export async function destroySession() {
